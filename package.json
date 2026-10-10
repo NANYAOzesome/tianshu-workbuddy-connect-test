@@ -1,0 +1,82 @@
+{
+  "name": "tianshu-workbuddy-connect",
+  "displayName": "Tianshu WorkBuddy Connect",
+  "version": "1.1.0",
+  "description": "将 WorkBuddy 桌面 App 的模型接入天枢 Tianshu Harness —— 复用 App 登录态、零配置、无需 API Key",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=20.11.0"
+  },
+  "main": "index.js",
+  "bin": {
+    "tianshu-workbuddy-connect": "bin/cli.js"
+  },
+  "exports": {
+    ".": "./index.js",
+    "./gateway": "./src/gateway.js",
+    "./credential": "./src/credential.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "index.js",
+    "bin",
+    "src",
+    "hooks",
+    "skills",
+    "scripts",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node --test tests/*.test.js",
+    "lint:syntax": "node --no-warnings --experimental-vm-modules scripts/syntax-check.mjs",
+    "check": "npm run lint:syntax && node --test tests/*.test.js",
+    "status": "node bin/cli.js status",
+    "doctor": "node bin/cli.js doctor"
+  },
+  "tianshu": {
+    "name": "tianshu-workbuddy-connect",
+    "version": "1.1.0",
+    "description": "把 WorkBuddy 桌面 App 内置的模型（DeepSeek / GLM / Kimi / MiniMax / Hy3）接入天枢，复用 App 登录态，零配置",
+    "entry": "index.js",
+    "tools": [
+      { "name": "workbuddy_connect", "description": "接入 WorkBuddy 模型：读取桌面 App 登录态、拉起本地网关并写回天枢 provider 配置" },
+      { "name": "workbuddy_status", "description": "查看 WorkBuddy 接入状态：账号、令牌有效期、网关健康、模型数量" },
+      { "name": "workbuddy_models", "description": "列出当前账号可用的 WorkBuddy 模型及其上下文窗口与思考档位" },
+      { "name": "workbuddy_refresh", "description": "刷新 WorkBuddy 登录令牌并重新同步模型目录到天枢配置" },
+      { "name": "workbuddy_doctor", "description": "诊断 WorkBuddy 接入链路的每一环（凭据、解密、网关、配置漂移）" },
+      { "name": "workbuddy_logout", "description": "断开 WorkBuddy 接入：移除 provider 配置与插件自留凭据副本" }
+    ],
+    "permissions": {
+      "fs": true,
+      "net": true,
+      "shell": false
+    },
+    "skills": [
+      "skills/workbuddy-connect"
+    ],
+    "hooks": [
+      { "event": "preTurn", "script": "hooks/preturn.js", "timeoutMs": 8000 }
+    ],
+    "minCoreVersion": "3.0.0"
+  },
+  "keywords": [
+    "tianshu-plugin",
+    "tianshu-harness",
+    "rivet",
+    "workbuddy",
+    "model-provider"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NANYAOzesome/tianshu-workbuddy-connect.git"
+  },
+  "bugs": {
+    "url": "https://github.com/NANYAOzesome/tianshu-workbuddy-connect/issues"
+  },
+  "homepage": "https://github.com/NANYAOzesome/tianshu-workbuddy-connect#readme",
+  "contributors": [
+    "Corrine Hu (https://github.com/corrinehu) —— 原始协议调研与 dsh-workbuddy-connect"
+  ]
+}
